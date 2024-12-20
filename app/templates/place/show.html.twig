@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ place.name }}{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h1 class="text-2xl font-bold text-gray-900">{{ place.name }}</h1>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Capacité: {{ place.capacity }} personnes
+            </p>
+        </div>
+
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Adresse</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+                        {{ place.adresse }}<br>
+                        {{ place.city }}, {{ place.postalCode }}
+                    </dd>
+                </div>
+
+                <div class="bg-white px-4 py-5 sm:px-6">
+                    <dt class="text-lg font-medium text-gray-900 mb-4">Événements prévus</dt>
+                    <dd class="mt-1">
+                        <ul class="divide-y divide-gray-200">
+                            {% for event in place.events %}
+                                <li class="py-4">
+                                    <div class="flex space-x-3">
+                                        <div class="flex-1">
+                                            <a href="{{ path('app_event_show', {'id': event.id}) }}" class="text-lg font-medium text-blue-600 hover:text-blue-800">
+                                                {{ event.title }}
+                                            </a>
+                                            <p class="mt-1 text-sm text-gray-600">{{ event.description|slice(0, 150) }}...</p>
+                                            <div class="mt-2 flex items-center text-sm text-gray-500">
+                                                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                                </svg>
+                                                Du {{ event.beginAt|date('d/m/Y H:i') }} au {{ event.endAt|date('d/m/Y H:i') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li class="py-4 text-gray-500">Aucun événement prévu dans ce lieu.</li>
+                            {% endfor %}
+                        </ul>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="px-4 py-4 sm:px-6 border-t border-gray-200 flex gap-4">
+            <a href="{{ path('app_place_index') }}" class="text-gray-600 hover:text-gray-900">Retour à la liste</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_place_edit', {'id': place.id}) }}" class="text-blue-600 hover:text-blue-700">Modifier</a>
+                {{ include('place/_delete_form.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comment index{% endblock %}
+
+{% block body %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            Heureux de vous revoir {{ app.user.userIdentifier }} !<br>
+            <a class="bg-blue-500 rounded py-2 px-4" href="{{ path('app_event_index') }}">Evenements</a>
+            | <a class="bg-blue-500 rounded py-2 px-4" href="{{ path('app_place_index') }}">Lieux</a>
+            | <a class="bg-blue-500 rounded py-2 px-4" href="{{ path('app_activity_index') }}">Activités</a>
+            | <a class="bg-blue-500 rounded py-2 px-4" href="{{ path('app_comment_index') }}">Commentaires</a>
+            <br><br>
+            <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% else %}
+        <div class="mb-3">
+            Bienvenue !<br>
+            <a href="{{ path('app_login') }}">Login</a><br>
+            <a href="{{ path('app_register') }}">Register</a>
+        </div>
+    {% endif %}
+
+{% endblock %}

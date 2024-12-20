@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le commentaire{% endblock %}
+
+{% block body %}
+    <div class="max-w-3xl mx-auto">
+        <div class="md:flex md:items-center md:justify-between mb-8">
+            <div class="flex-1 min-w-0">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                    Modifier le commentaire
+                </h2>
+            </div>
+            <div class="mt-4 flex md:mt-0 md:ml-4">
+                <a href="{{ path('app_comment_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Retour aux commentaires
+                </a>
+            </div>
+        </div>
+
+        {{ include('comment/_form.html.twig') }}
+
+        {% if is_granted('ROLE_ADMIN') or app.user and app.user.id == comment.user.id %}
+            <div class="mt-4">
+                {{ include('comment/_delete_form.html.twig') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

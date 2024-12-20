@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }} - Détails{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h1 class="text-2xl font-bold text-gray-900">{{ event.title }}</h1>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Du {{ event.beginAt|date('d/m/Y H:i') }} au {{ event.endAt|date('d/m/Y H:i') }}</p>
+        </div>
+
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Description</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ event.description }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Lieu</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+                        {{ event.place.name }}<br>
+                        {{ event.place.adresse }}<br>
+                        {{ event.place.city }}, {{ event.place.postalCode }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <!-- Section Activités -->
+        <div class="px-4 py-5 sm:px-6">
+            <h2 class="text-xl font-semibold text-gray-900">Activités prévues</h2>
+            <div class="mt-4 space-y-4">
+                {% if event.activities|length > 0 %}
+                    {% for activity in event.activities %}
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-900">{{ activity.nom }}</h3>
+                            <p class="text-sm text-gray-500">{{ activity.heureDebut|date('H:i') }} - {{ activity.heureFin|date('H:i') }}</p>
+                            <p class="mt-2 text-gray-600">{{ activity.description }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-gray-500">Aucune activité n'est prévue pour cet événement.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Section Commentaires -->
+        <div class="px-4 py-5 sm:px-6 border-t border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">Commentaires</h2>
+            <div class="mt-4 space-y-4">
+                {% if event.comments|length > 0 %}
+                    {% for comment in event.comments %}
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <div class="flex justify-between items-start">
+                                <div class="text-sm text-gray-600">{{ comment.user.email }}</div>
+                                <div class="text-xs text-gray-400">{{ comment.createdAt|date('d/m/Y H:i') }}</div>
+                            </div>
+                            <p class="mt-2 text-gray-800">{{ comment.content }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-gray-500">Aucun commentaire pour cet événement.</p>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mt-6">
+                        <a href="{{ path('app_comment_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            Ajouter un commentaire
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="px-4 py-5 sm:px-6 border-t border-gray-200 flex gap-4">
+            <a href="{{ path('app_event_index') }}" class="text-gray-600 hover:text-gray-900">Retour à la liste</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="text-blue-600 hover:text-blue-700">Modifier</a>
+                {{ include('event/_delete_form.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

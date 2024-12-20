@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau commentaire{% endblock %}
+
+{% block body %}
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="md:flex md:items-center md:justify-between mb-8">
+            <div class="flex-1 min-w-0">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                    Ajouter un commentaire
+                </h2>
+                {% if event is defined %}
+                    <p class="mt-1 text-sm text-gray-500">
+                        Pour l'événement : {{ event.title }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        {{ include('comment/_form.html.twig') }}
+    </div>
+{% endblock %}

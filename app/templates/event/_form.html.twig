@@ -1,0 +1,49 @@
+{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+<div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+    <div class="grid grid-cols-1 gap-6">
+        <div>
+            {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+            {{ form_errors(form.title, {'attr': {'class': 'mt-1 text-sm text-red-600'}}) }}
+        </div>
+
+        <div>
+            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm', 'rows': '4'}}) }}
+            {{ form_errors(form.description, {'attr': {'class': 'mt-1 text-sm text-red-600'}}) }}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                {{ form_label(form.begin_at, 'Date de début', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.begin_at, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                {{ form_errors(form.begin_at, {'attr': {'class': 'mt-1 text-sm text-red-600'}}) }}
+            </div>
+
+            <div>
+                {{ form_label(form.end_at, 'Date de fin', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.end_at, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                {{ form_errors(form.end_at, {'attr': {'class': 'mt-1 text-sm text-red-600'}}) }}
+            </div>
+        </div>
+
+        <div>
+            {{ form_label(form.place, 'Lieu', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+            {{ form_widget(form.place, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+            {{ form_errors(form.place, {'attr': {'class': 'mt-1 text-sm text-red-600'}}) }}
+        </div>
+    </div>
+</div>
+
+<div class="hidden">
+    {{ form_row(form.place_id) }}
+    {{ form_row(form.created_at) }}
+    {{ form_row(form.updated_at) }}
+</div>
+
+<div class="flex justify-end">
+    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+</div>
+{{ form_end(form) }}
